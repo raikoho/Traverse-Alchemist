@@ -1,5 +1,5 @@
 # Traverse-Alchemist
-# 🌌 Path Traversal Generator 🚀
+# 🌌 Path Traversal Worlists Generator 🚀
 
 Welcome to the **Path Traversal Generator**! This program is designed to help you generate various path traversal payloads. A lot of encodings and workarounds.
 
@@ -23,7 +23,7 @@ Enter the target file path (e.g., /etc/passwd):
 ```
 After entering your desired path, the program will generate a colorful wordlist of potential payloads and save it to a text file.
 
-## 📄 Example Generated Payloads
+## 📄 Little Example Generated Payloads
 
 ```
 ../../\..\/home/carlos/secret
