@@ -1,5 +1,5 @@
 # Traverse-Alchemist
-# 🌌 Path Traversal Worlists Generator 🚀
+# 🌌 Path Traversal Worlists Generator
 
 Welcome to the **Path Traversal Generator**! This program is designed to help you generate various path traversal payloads. A lot of encodings and workarounds.
 
